@@ -10,7 +10,7 @@ export default async function Home() {
   return (
     <div>
       <h1> Blog Home</h1>
-      {posts.slice(0, 10).map((p) => (
+      {posts.map((p) => (
         <PostCard key={p.id} id={p.id} title={p.title} />
       ))}
     </div>

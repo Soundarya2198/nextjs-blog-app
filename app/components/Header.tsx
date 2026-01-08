@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import styles from "./Header.module.css";
+import { logout } from "../actions/auth";
 
 export default function Header() {
   return (
@@ -9,8 +12,16 @@ export default function Header() {
           Home
         </Link>
         <Link href="/" className={styles.link}>
-          blog
+          Blog
         </Link>
+        <Link href="/create" className={styles.link}>
+          Create Post
+        </Link>
+        <form action={logout}>
+          <button className={styles.logout} type="submit">
+            Logout
+          </button>
+        </form>
       </nav>
     </header>
   );
