@@ -6,10 +6,10 @@ type PostCardProps = {
   title: string;
 };
 
-export default async function PostCard({ id, title }: PostCardProps) {
+export default function PostCard({ id, title }: PostCardProps) {
   return (
     <div className={styles.card}>
-      <Link href={`/blog/${id}`} className="styles.title">
+      <Link href={`/blog/${id}`} className={styles.title}>
         <h3>{title}</h3>
       </Link>
     </div>

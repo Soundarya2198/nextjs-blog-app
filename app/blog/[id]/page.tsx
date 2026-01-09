@@ -1,5 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
+import styles from "./page.module.css";
 
 type Post = {
   title: string;
@@ -11,32 +12,50 @@ type Props = {
     id: string;
   };
 };
+
 async function deletePost(formData: FormData) {
   "use server";
   const id = formData.get("id");
+
   await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
-    method: "Delete",
+    method: "DELETE",
   });
+
   redirect("/");
 }
-const blog = async ({ params }: Props) => {
-  const { id } = await params;
-  const data = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`);
+
+const Blog = async ({ params }: Props) => {
+  const { id } = params;
+
+  const data = await fetch(
+    `https://jsonplaceholder.typicode.com/posts/${id}`
+  );
+
   if (!data.ok) return notFound();
+
   const post: Post = await data.json();
 
   return (
-    <div>
-      <h1>{post.title}</h1>
-      <p>{post.body}</p>
-      <Link href={`/blog/${id}/edit`}>Edit Blog Post</Link>
-      <form action={deletePost}>
-        <input type="hidden" name="id" value={id} />
-        <button type="submit" style={{ color: "red", marginTop: "20px" }}>
-          Delete Post
-        </button>
-      </form>
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <h1 className={styles.title}>{post.title}</h1>
+        <p className={styles.body}>{post.body}</p>
+
+        <div className={styles.actions}>
+          <Link href={`/blog/${id}/edit`} className={styles.edit}>
+            Edit Blog Post
+          </Link>
+
+          <form action={deletePost}>
+            <input type="hidden" name="id" value={id} />
+            <button type="submit" className={styles.delete}>
+              Delete Post
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };
-export default blog;
+
+export default Blog;

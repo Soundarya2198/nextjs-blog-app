@@ -9,7 +9,7 @@ export default async function Home() {
   const posts: Post[] = await data.json();
   return (
     <div>
-      <h1> Blog Home</h1>
+      <h1 style= {{fontSize: "30px",fontWeight: "600",marginTop: "20px", textAlign: "center"}}> Blog Home</h1>
       {posts.map((p) => (
         <PostCard key={p.id} id={p.id} title={p.title} />
       ))}

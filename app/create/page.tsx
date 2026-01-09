@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import styles from "./page.module.css";
 
 async function createPost(formData: FormData) {
   "use server";
@@ -8,7 +9,7 @@ async function createPost(formData: FormData) {
   const userId = formData.get("userId");
 
   const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
-    method: "Post",
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
@@ -18,41 +19,43 @@ async function createPost(formData: FormData) {
       userId,
     }),
   });
-  const result = await res.json();
-  console.log(result);
+
   if (!res.ok) {
     throw new Error("Failed to create post");
   }
+
   redirect("/");
 }
+
 export default function CreatePost() {
   return (
-    <div>
-      <h1>Create Blog Post</h1>
-      <form action={createPost}>
-        <div>
-          <label>Title</label>
-          <br />
-          <input name="title" required />
-        </div>
-        <br />
-        <div>
-          <label>Body</label>
-          <br />
-          <textarea name="body" required />
+    <div className={styles.container}>
+      <h1 className={styles.heading}>Create Blog Post</h1>
+
+      <form action={createPost} className={styles.form}>
+        <div className={styles.field}>
+          <label className={styles.label}>Title</label>
+          <input name="title" required className={styles.input} />
         </div>
 
-        <br />
-
-        <div>
-          <label>User ID</label>
-          <br />
-          <input name="userId" type="number" required />
+        <div className={styles.field}>
+          <label className={styles.label}>Body</label>
+          <textarea name="body" required className={styles.textarea} />
         </div>
 
-        <br />
+        <div className={styles.field}>
+          <label className={styles.label}>User ID</label>
+          <input
+            name="userId"
+            type="number"
+            required
+            className={styles.input}
+          />
+        </div>
 
-        <button type="submit">Create Post</button>
+        <button type="submit" className={styles.button}>
+          Create Post
+        </button>
       </form>
     </div>
   );
